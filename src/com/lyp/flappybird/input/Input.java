@@ -9,7 +9,12 @@ public class Input extends GLFWKeyCallback {
 
 	@Override
 	public void invoke(long window, int key, int scancode, int action, int mods) {
+		if (GLFW.GLFW_KEY_ESCAPE == key) {
+			GLFW.glfwSetWindowShouldClose(window, true);
+		}
+		
 		keys[key] = (action != GLFW.GLFW_RELEASE);
+		System.out.println("keyboard : " + key);
 	}
 
 }

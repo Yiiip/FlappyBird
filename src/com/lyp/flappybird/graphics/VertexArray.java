@@ -17,8 +17,8 @@ public class VertexArray {
 	
 	/**
 	 * 
-	 * @param vertices 顶点数组
-	 * @param indices 索引数组
+	 * @param vertices 椤剁偣鏁扮粍
+	 * @param indices 绱㈠紩鏁扮粍
 	 * @param textureCoordinates
 	 */
 	public VertexArray(float[] vertices, byte[] indices, float[] textureCoordinates) {

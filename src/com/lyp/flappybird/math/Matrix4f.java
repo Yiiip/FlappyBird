@@ -7,7 +7,7 @@ import java.nio.FloatBuffer;
 import com.lyp.flappybird.utils.BufferUtils;
 
 /**
- * ËÄ½×¾ØÕó
+ * å››é˜¶çŸ©é˜µ
  */
 public class Matrix4f {
 
@@ -18,7 +18,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * µ¥Î»¾ØÕó
+	 * å•ä½çŸ©é˜µ
 	 * 
 	 * @return
 	 */
@@ -35,7 +35,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * ¾ØÕó³Ë»ı
+	 * çŸ©é˜µä¹˜ç§¯
 	 * 
 	 * @param matrix
 	 * @return
@@ -55,7 +55,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * Æ½ÒÆ¾ØÕó ×İÏòË÷ÒıµÄ¾ØÕó[12],[13],[14]ÏÂ±ê´¦·Ö±ğÉèÎª¦¤x,¦¤y,¦¤z
+	 * å¹³ç§»çŸ©é˜µ çºµå‘ç´¢å¼•çš„çŸ©é˜µ[12],[13],[14]ä¸‹æ ‡å¤„åˆ†åˆ«è®¾ä¸ºÎ”x,Î”y,Î”z
 	 * 
 	 * @param vector3f
 	 * @return
@@ -69,7 +69,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * Ğı×ª¾ØÕó (²ÉÓÃ×İÏòË÷Òı¾ØÕó) (2DÍ¼Ïñ¸Ä±ä×ÔÉí½Ç¶È£¬Ö»ĞèzÖáĞı×ª)
+	 * æ—‹è½¬çŸ©é˜µ (é‡‡ç”¨çºµå‘ç´¢å¼•çŸ©é˜µ) (2Då›¾åƒæ”¹å˜è‡ªèº«è§’åº¦ï¼Œåªéœ€zè½´æ—‹è½¬)
 	 */
 	public static Matrix4f rotate(float angle) {
 		Matrix4f result = identity();
@@ -84,7 +84,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * µÃµ½ÈÆÌØ¶¨ÖáĞı×ªµÄĞı×ª¾ØÕó¡£ Èç{x=1, y=0, z=0}ÔòÈÆxÖáĞı×ª¡£
+	 * å¾—åˆ°ç»•ç‰¹å®šè½´æ—‹è½¬çš„æ—‹è½¬çŸ©é˜µã€‚ å¦‚{x=1, y=0, z=0}åˆ™ç»•xè½´æ—‹è½¬ã€‚
 	 * 
 	 * @param angle
 	 * @param x
@@ -113,7 +113,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * Õı½»Í¶Ó°¾ØÕó (²ÉÓÃ×İÏòË÷Òı¾ØÕó)
+	 * æ­£äº¤æŠ•å½±çŸ©é˜µ (é‡‡ç”¨çºµå‘ç´¢å¼•çŸ©é˜µ)
 	 * 
 	 * @param left
 	 * @param right
@@ -138,7 +138,7 @@ public class Matrix4f {
 	}
 
 	/**
-	 * lwjglĞèÒªfloat buffer¸ñÊ½£¬ËùÒÔÒª°ÑÊı×é×ª»¯Ò»ÏÂ
+	 * lwjgléœ€è¦float bufferæ ¼å¼ï¼Œæ‰€ä»¥è¦æŠŠæ•°ç»„è½¬åŒ–ä¸€ä¸‹
 	 * @return
 	 */
 	public FloatBuffer toFloatBuffer() {

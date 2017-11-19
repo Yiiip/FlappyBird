@@ -13,6 +13,11 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * 官方示例
+ * @author LYP
+ *
+ */
 public class Test {
 
 	// The window handle

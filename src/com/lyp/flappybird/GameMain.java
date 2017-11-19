@@ -42,10 +42,10 @@ public class GameMain implements Runnable {
 		glfwSetKeyCallback(window, new Input());
 		
 		glfwMakeContextCurrent(window);
-		glfwSwapInterval(1); // ‘ –Ìv-sync
+		glfwSwapInterval(1); // ÂÖÅËÆ∏V-SYNC
 		glfwShowWindow(window);
 		
-		GL.createCapabilities(); //¥¥Ω®OpenGL Context
+		GL.createCapabilities(); //ÂàõÂª∫OpenGL Context
 		System.out.println("OpenGL : " + glGetString(GL_VERSION));
 		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
@@ -55,9 +55,6 @@ public class GameMain implements Runnable {
 	private void update() {
 		glfwPollEvents();
 		
-		if (Input.keys[GLFW_KEY_SPACE]) {
-			System.out.println("Fly");
-		}
 	}
 
 	private void render() {
