@@ -7,7 +7,9 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
+import com.lyp.flappybird.graphics.ShaderFactory;
 import com.lyp.flappybird.input.Input;
+import com.lyp.flappybird.level.Level;
 
 public class GameMain implements Runnable {
 
@@ -19,6 +21,8 @@ public class GameMain implements Runnable {
 	private Thread thread;
 
 	private long window;
+	
+	private Level level;
 
 	public void start() {
 		running = true;
@@ -47,9 +51,12 @@ public class GameMain implements Runnable {
 		
 		GL.createCapabilities(); //创建OpenGL Context
 		System.out.println("OpenGL : " + glGetString(GL_VERSION));
-		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		
+		ShaderFactory.loadAll();
+		
+		level = new Level();
 	}
 
 	private void update() {
@@ -59,6 +66,13 @@ public class GameMain implements Runnable {
 
 	private void render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		level.render();
+		
+		int e = glGetError();
+		if (e != GL_NO_ERROR) {
+			System.out.println("Ops! gl has error : " + e);
+		}
+		
 		glfwSwapBuffers(window);
 	}
 
@@ -73,6 +87,8 @@ public class GameMain implements Runnable {
 				running = false;
 			}
 		}
+		glfwDestroyWindow(window);
+		glfwTerminate();
 	}
 
 	public static void main(String[] args) {
