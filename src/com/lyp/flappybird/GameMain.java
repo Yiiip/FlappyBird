@@ -61,7 +61,7 @@ public class GameMain implements Runnable {
 
 	private void update() {
 		glfwPollEvents();
-		
+		level.update();
 	}
 
 	private void render() {
@@ -79,9 +79,31 @@ public class GameMain implements Runnable {
 	@Override
 	public void run() {
 		init();
+		
+		long lastTime = System.nanoTime();
+		double ns = 1000000000.0 * 1 / 60.0; //1s(10^9ns)有60帧，即求每帧有几秒。
+		double delta = 0.0;
+		int updates = 0;
+		int frames = 0;
+		long timer = System.currentTimeMillis();
+		
 		while (running) {
-			update();
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			if (delta >= 1.0) {
+				update();
+				updates++;
+				delta--;
+			}
+			
 			render();
+			frames++;
+			if (System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				glfwSetWindowTitle(window, title + "  (Updates : " + updates + ",  fps : " + frames + ")");
+				updates = 0;
+				frames = 0;
+			}
 
 			if (glfwWindowShouldClose(window)) {
 				running = false;
