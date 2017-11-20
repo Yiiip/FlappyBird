@@ -1,11 +1,13 @@
 package com.lyp.flappybird.level;
 
 import com.lyp.flappybird.graphics.ShaderFactory;
+import com.lyp.flappybird.graphics.Texture;
 import com.lyp.flappybird.graphics.VertexArray;
 
 public class Level {
 
 	private VertexArray background;
+	private Texture bgTexture;
 
 	public Level() {
 		float[] vertices = new float[] { 
@@ -28,11 +30,14 @@ public class Level {
 		};
 		
 		background = new VertexArray(vertices, indices, textureCoordinates);
+		bgTexture = new Texture("res/bg.jpg");
 	}
 	
 	public void render() {
+		bgTexture.bind();
 		ShaderFactory.BG.enable();
 		background.render();
 		ShaderFactory.BG.disable();
+		bgTexture.unbind();
 	}
 }
