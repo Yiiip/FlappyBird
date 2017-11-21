@@ -13,6 +13,8 @@ public class Level {
 	
 	private int xScroll = 0;
 	private int bgIndex = 0;
+	
+	private Bird bird;
 
 	public Level() {
 		float[] vertices = new float[] { 
@@ -36,6 +38,8 @@ public class Level {
 		
 		background = new VertexArray(vertices, indices, textureCoordinates);
 		bgTexture = new Texture("res/bg.jpg");
+		
+		bird = new Bird();
 	}
 	
 	public void update() {
@@ -45,6 +49,7 @@ public class Level {
 			System.out.println(""+xScroll);
 			System.out.println(""+bgIndex);
 		}
+		bird.update();
 	}
 	
 	public void render() {
@@ -57,5 +62,7 @@ public class Level {
 		}
 		ShaderFactory.BG.disable();
 		bgTexture.unbind();
+		
+		bird.render();
 	}
 }

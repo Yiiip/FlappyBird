@@ -14,7 +14,10 @@ public class Input extends GLFWKeyCallback {
 		}
 		
 		keys[key] = (action != GLFW.GLFW_RELEASE);
-		System.out.println("keyboard : " + key);
+		//System.out.println("keyboard : " + key);
 	}
 
+	public static boolean isKeyDown(int keycode) {
+		return keys[keycode];
+	}
 }
