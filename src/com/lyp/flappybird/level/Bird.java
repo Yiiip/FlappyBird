@@ -44,7 +44,7 @@ public class Bird {
 	}
 	
 	private void gravity() {
-		if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+		if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) { //向上为y轴正方形
 			gravitySpd = -0.15f;
 		} else {
 			gravitySpd += 0.01f;
@@ -53,7 +53,7 @@ public class Bird {
 	}
 	
 	private void rotate() {
-		angle = -gravitySpd * 10.0f;
+		angle = -gravitySpd * 90.0f;
 	}
 
 	public void update() {
@@ -65,7 +65,8 @@ public class Bird {
 	public void render() {
 		texture.bind();
 		ShaderFactory.BIRD.enable();
-		ShaderFactory.BIRD.setUniformMatrix4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(angle)));
+		Matrix4f cumulating = Matrix4f.rotate(angle).multiply(Matrix4f.translate(position));
+		ShaderFactory.BIRD.setUniformMatrix4f("ml_matrix", cumulating);
 		mesh.render();
 		ShaderFactory.BIRD.disable();
 		texture.unbind();
