@@ -19,6 +19,7 @@ public class Level {
 	private Bird bird;
 	private Pipe[] pipes;
 	
+	private float PIPE_OFFSET = 5.0f; //半个屏幕宽
 	private int index = 0;
 	
 	private Random random = new Random();
@@ -54,14 +55,16 @@ public class Level {
 		Pipe.create();
 		this.pipes = new Pipe[5 * 2]; //5 top, 5 bottom, and reuse them
 		for (int i = 0; i < this.pipes.length; i+=2) {
-			this.pipes[i] = new Pipe(4.0f * i, random.nextFloat() * 5.0f);
-			this.pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 12.0f);
+			this.pipes[i] = new Pipe(PIPE_OFFSET + 3.0f * index, random.nextFloat() * 5.0f);
+			this.pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - (11.0f+random.nextFloat()*2.0f));
 			index+=2;
 		}
 	}
 	
 	public void updatePipes() {
-		
+		pipes[index % 10] = new Pipe(PIPE_OFFSET + 3.0f * index, random.nextFloat() * 5.0f);
+		pipes[(index+1) % 10] = new Pipe(pipes[index % 10].getX(), pipes[index % 10].getY() - (11.0f+random.nextFloat()*2.0f));
+		index+=2;
 	}
 	
 	public void update() {
@@ -71,7 +74,9 @@ public class Level {
 			System.out.println(""+xScroll);
 			System.out.println(""+bgIndex);
 		}
-		updatePipes();
+		if (Math.abs(xScroll) > 250 && Math.abs(xScroll) % 125 == 0) {
+			updatePipes();
+		}
 		bird.update();
 	}
 	
@@ -79,7 +84,7 @@ public class Level {
 		bgTexture.bind();
 		ShaderFactory.BG.enable();
 		background.bind();
-		for (int i = bgIndex; i < bgIndex + 3; i++) { //重复3个, view_matrix
+		for (int i = bgIndex; i < bgIndex + 4; i++) { //重复4个, view_matrix
 			ShaderFactory.BG.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.04f, 0, 0))); //10为可视区域的一半
 			background.draw();
 		}
@@ -92,7 +97,7 @@ public class Level {
 	
 	private void renderPipes() {
 		ShaderFactory.PIPE.enable();
-		ShaderFactory.PIPE.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(0.03f * xScroll, 0, 0)));
+		ShaderFactory.PIPE.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(0.05f * xScroll, 0, 0))); //pipe移动快慢
 		Pipe.getTexture().bind();
 		Pipe.getMesh().bind();
 		
