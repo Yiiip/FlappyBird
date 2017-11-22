@@ -21,10 +21,10 @@ public class Bird {
 
 	public Bird() {
 		float[] vertices = new float[] { 
-			-SIZE / 2.0f, -SIZE / 2.0f, 1.0f, //(bird_z=1.0) > (bg_z=0.0)，图层 
-			-SIZE / 2.0f,  SIZE / 2.0f, 1.0f, 
-			 SIZE / 2.0f,  SIZE / 2.0f, 1.0f, 
-			 SIZE / 2.0f, -SIZE / 2.0f, 1.0f 
+			-SIZE / 2.0f, -SIZE / 2.0f, 2.0f, //bird_z > bg_z，图层 
+			-SIZE / 2.0f,  SIZE / 2.0f, 2.0f, 
+			 SIZE / 2.0f,  SIZE / 2.0f, 2.0f, 
+			 SIZE / 2.0f, -SIZE / 2.0f, 2.0f 
 		};
 
 		byte[] indices = new byte[] { 
@@ -59,7 +59,7 @@ public class Bird {
 	public void update() {
 		gravity();
 		rotate();
-		System.out.println("x="+position.x + ", y="+position.y + ", r="+angle + ", g=" + gravitySpd);
+		//System.out.println("x="+position.x + ", y="+position.y + ", r="+angle + ", g=" + gravitySpd);
 	}
 	
 	public void render() {

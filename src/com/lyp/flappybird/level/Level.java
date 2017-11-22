@@ -1,5 +1,7 @@
 package com.lyp.flappybird.level;
 
+import java.util.Random;
+
 import com.lyp.flappybird.graphics.ShaderFactory;
 import com.lyp.flappybird.graphics.Texture;
 import com.lyp.flappybird.graphics.VertexArray;
@@ -15,6 +17,11 @@ public class Level {
 	private int bgIndex = 0;
 	
 	private Bird bird;
+	private Pipe[] pipes;
+	
+	private int index = 0;
+	
+	private Random random = new Random();
 
 	public Level() {
 		float[] vertices = new float[] { 
@@ -40,6 +47,21 @@ public class Level {
 		bgTexture = new Texture("res/bg.jpg");
 		
 		bird = new Bird();
+		initPipes();
+	}
+	
+	private void initPipes() {
+		Pipe.create();
+		this.pipes = new Pipe[5 * 2]; //5 top, 5 bottom, and reuse them
+		for (int i = 0; i < this.pipes.length; i+=2) {
+			this.pipes[i] = new Pipe(4.0f * i, random.nextFloat() * 5.0f);
+			this.pipes[i+1] = new Pipe(pipes[i].getX(), pipes[i].getY() - 12.0f);
+			index+=2;
+		}
+	}
+	
+	public void updatePipes() {
+		
 	}
 	
 	public void update() {
@@ -49,6 +71,7 @@ public class Level {
 			System.out.println(""+xScroll);
 			System.out.println(""+bgIndex);
 		}
+		updatePipes();
 		bird.update();
 	}
 	
@@ -56,13 +79,30 @@ public class Level {
 		bgTexture.bind();
 		ShaderFactory.BG.enable();
 		background.bind();
-		for (int i = bgIndex; i < bgIndex + 3; i++) { //重复3个
+		for (int i = bgIndex; i < bgIndex + 3; i++) { //重复3个, view_matrix
 			ShaderFactory.BG.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.04f, 0, 0))); //10为可视区域的一半
 			background.draw();
 		}
 		ShaderFactory.BG.disable();
 		bgTexture.unbind();
 		
+		renderPipes();
 		bird.render();
+	}
+	
+	private void renderPipes() {
+		ShaderFactory.PIPE.enable();
+		ShaderFactory.PIPE.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(0.03f * xScroll, 0, 0)));
+		Pipe.getTexture().bind();
+		Pipe.getMesh().bind();
+		
+		for (int i = 0; i < pipes.length; i++) {
+			ShaderFactory.PIPE.setUniformMatrix4f("ml_matrix", pipes[i].getModelMatrix());
+			ShaderFactory.PIPE.setUniform1i("is_top", i % 2 == 0 ? 1 : 0);
+			Pipe.getMesh().draw();
+		}
+		Pipe.getMesh().unbind();
+		Pipe.getTexture().unbind();
+		ShaderFactory.PIPE.disable();
 	}
 }

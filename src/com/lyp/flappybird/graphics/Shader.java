@@ -14,7 +14,7 @@ public class Shader {
 	public static final int VERTEX_ATTRIB = 0;
 	public static final int TEXTURE_COORDINATE_ATTRIB = 1;
 	
-	private final int ID;
+	private final int ID; // program id
 	private Map<String, Integer> locationCache = new HashMap<>();
 	
 	private boolean enabled = false;

@@ -8,9 +8,10 @@ public class ShaderFactory {
 
 	public static Shader BG;
 	public static Shader BIRD;
+	public static Shader PIPE;
 	
 	private static Matrix4f projectionMatrix = Matrix4f.orthographic(
-		-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -1.0f, 1.0f //可视区域 x[-5,5] y[-10, 10]
+		-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f, 10.0f //可视区域 x[-5,5] y[-10, 10]
 	);
 
 	public static void loadAll() {
@@ -26,6 +27,12 @@ public class ShaderFactory {
 			BIRD = new Shader("shaders/bird.vert", "shaders/bird.frag");
 			BIRD.setUniformMatrix4f("pr_matrix", projectionMatrix);
 			BIRD.setUniform1i("tex_bird", 1);
+		}
+		
+		if (PIPE == null) {
+			PIPE = new Shader("shaders/pipe.vert", "shaders/pipe.frag");
+			PIPE.setUniformMatrix4f("pr_matrix", projectionMatrix);
+			PIPE.setUniform1i("tex_pipe", 1);
 		}
 	}
 }
