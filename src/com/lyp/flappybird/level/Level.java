@@ -22,6 +22,8 @@ public class Level {
 	private float PIPE_OFFSET = 5.0f; //半个屏幕宽
 	private int index = 0;
 	
+	private boolean reset = false;
+	
 	private Random random = new Random();
 
 	public Level() {
@@ -68,16 +70,50 @@ public class Level {
 	}
 	
 	public void update() {
-		xScroll -= 1;
-		if (Math.abs(xScroll) % 250 == 0) { //335 -> xScoll*0.03
-			bgIndex++;
-			System.out.println(""+xScroll);
-			System.out.println(""+bgIndex);
+		if (bird.control) {
+			xScroll -= 1;
+			if (Math.abs(xScroll) % 250 == 0) { //335 -> xScoll*0.03
+				bgIndex++;
+				System.out.println(""+xScroll);
+				System.out.println(""+bgIndex);
+			}
+			if (Math.abs(xScroll) > 250 && Math.abs(xScroll) % 125 == 0) {
+				updatePipes();
+			}
 		}
-		if (Math.abs(xScroll) > 250 && Math.abs(xScroll) % 125 == 0) {
-			updatePipes();
-		}
+		
 		bird.update();
+		
+		if (bird.control && collision()) {
+			bird.gameover();
+			bird.control = false;
+		}
+	}
+	
+	private boolean collision() {
+		for (int i = 0; i < pipes.length; i++) {
+			float birdX = -xScroll * 0.05f;
+			float birdY = bird.getY();
+			float pipeX = pipes[i].getX();
+			float pipeY = pipes[i].getY();
+			
+			float bx0 = birdX - bird.getSize() / 2.0f;
+			float bx1 = birdX + bird.getSize() / 2.0f;
+			float by0 = birdY - bird.getSize() / 2.0f;
+			float by1 = birdY + bird.getSize() / 2.0f;
+			
+			float px0 = pipeX;
+			float px1 = pipeX + Pipe.getWidth();
+			float py0 = pipeY;
+			float py1 = pipeY + Pipe.getHeight();
+			
+			if (bx1 > px0 && bx0 < px1) {
+				if (by1 > py0 && by0 < py1) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public void render() {

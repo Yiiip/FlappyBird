@@ -18,6 +18,8 @@ public class Bird {
 	private Vector3f position = new Vector3f();
 	private float angle = 0.0f;
 	private float gravitySpd = 0.0f;
+	
+	public boolean control = true;
 
 	public Bird() {
 		float[] vertices = new float[] { 
@@ -44,12 +46,17 @@ public class Bird {
 	}
 	
 	private void gravity() {
-		if (Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) { //向上为y轴正方形
+		if (control && Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) { //向上为y轴正方形
 			gravitySpd = -0.15f;
 		} else {
 			gravitySpd += 0.01f;
 		}
 		position.y -= gravitySpd;
+	}
+	
+	public void gameover() {
+		gravitySpd = -0.12f;
+		position.x+=0.08f;
 	}
 	
 	private void rotate() {
