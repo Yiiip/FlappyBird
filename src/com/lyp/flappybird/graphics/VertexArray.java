@@ -15,6 +15,11 @@ public class VertexArray {
 	private int indexBufferObject;
 	private int textureBufferObject;
 	
+	public VertexArray(int count) {
+		this.count = count;
+		this.vertexArrayObject = glGenVertexArrays();
+	}
+
 	/**
 	 * 
 	 * @param vertices 顶点数组

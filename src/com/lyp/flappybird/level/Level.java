@@ -2,15 +2,18 @@ package com.lyp.flappybird.level;
 
 import java.util.Random;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.lyp.flappybird.graphics.ShaderFactory;
 import com.lyp.flappybird.graphics.Texture;
 import com.lyp.flappybird.graphics.VertexArray;
+import com.lyp.flappybird.input.Input;
 import com.lyp.flappybird.math.Matrix4f;
 import com.lyp.flappybird.math.Vector3f;
 
 public class Level {
 
-	private VertexArray background;
+	private VertexArray background, fade;
 	private Texture bgTexture;
 	
 	private int xScroll = 0;
@@ -22,6 +25,7 @@ public class Level {
 	private float PIPE_OFFSET = 5.0f; //半个屏幕宽
 	private int index = 0;
 	
+	private float time = 0.0f;
 	private boolean reset = false;
 	
 	private Random random = new Random();
@@ -48,7 +52,7 @@ public class Level {
 		
 		background = new VertexArray(vertices, indices, textureCoordinates);
 		bgTexture = new Texture("res/bg.jpg");
-		
+		fade = new VertexArray(6);
 		bird = new Bird();
 		initPipes();
 	}
@@ -84,10 +88,16 @@ public class Level {
 		
 		bird.update();
 		
-		if (bird.control && collision()) {
+		if (bird.control && (collision() || bird.getY()< -5*2)) {
 			bird.gameover();
 			bird.control = false;
 		}
+		
+		if (!bird.control && Input.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+			reset = true;
+		}
+		
+		time += 0.02f;
 	}
 	
 	private boolean collision() {
@@ -120,6 +130,7 @@ public class Level {
 		bgTexture.bind();
 		ShaderFactory.BG.enable();
 		background.bind();
+		ShaderFactory.BG.setUniform2f("bird", 0, bird.getY());
 		for (int i = bgIndex; i < bgIndex + 4; i++) { //重复4个, view_matrix
 			ShaderFactory.BG.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(i * 10 + xScroll * 0.04f, 0, 0))); //10为可视区域的一半
 			background.draw();
@@ -129,10 +140,19 @@ public class Level {
 		
 		renderPipes();
 		bird.render();
+		renderFade();
+	}
+	
+	private void renderFade() {
+		ShaderFactory.FADE.enable();
+		ShaderFactory.FADE.setUniform1f("time", time);
+		fade.render();
+		ShaderFactory.FADE.disable();;
 	}
 	
 	private void renderPipes() {
 		ShaderFactory.PIPE.enable();
+		ShaderFactory.PIPE.setUniform2f("bird", 0, bird.getY());
 		ShaderFactory.PIPE.setUniformMatrix4f("vw_matrix", Matrix4f.translate(new Vector3f(0.05f * xScroll, 0, 0))); //pipe移动快慢
 		Pipe.getTexture().bind();
 		Pipe.getMesh().bind();
@@ -145,5 +165,9 @@ public class Level {
 		Pipe.getMesh().unbind();
 		Pipe.getTexture().unbind();
 		ShaderFactory.PIPE.disable();
+	}
+	
+	public boolean isGameOver() {
+		return reset;
 	}
 }

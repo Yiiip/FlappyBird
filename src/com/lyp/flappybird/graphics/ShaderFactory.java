@@ -9,6 +9,7 @@ public class ShaderFactory {
 	public static Shader BG;
 	public static Shader BIRD;
 	public static Shader PIPE;
+	public static Shader FADE;
 	
 	private static Matrix4f projectionMatrix = Matrix4f.orthographic(
 		-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f, 10.0f //可视区域 x[-5,5] y[-10, 10]
@@ -33,6 +34,10 @@ public class ShaderFactory {
 			PIPE = new Shader("shaders/pipe.vert", "shaders/pipe.frag");
 			PIPE.setUniformMatrix4f("pr_matrix", projectionMatrix);
 			PIPE.setUniform1i("tex_pipe", 1);
+		}
+		
+		if (FADE == null) {
+			FADE = new Shader("shaders/fade.vert", "shaders/fade.frag");
 		}
 	}
 }

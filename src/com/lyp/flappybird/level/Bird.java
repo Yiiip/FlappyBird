@@ -64,6 +64,9 @@ public class Bird {
 	}
 
 	public void update() {
+		if (position.y < -5*2) { //-5为半屏
+			return;
+		}
 		gravity();
 		rotate();
 		//System.out.println("x="+position.x + ", y="+position.y + ", r="+angle + ", g=" + gravitySpd);
